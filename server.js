@@ -8,8 +8,13 @@ const expressLayouts = require("express-ejs-layouts");
 const mongoose = require("mongoose");  
 const methodOverride = require("method-override");
 
+//Routers Modules
+const loginRouter = require("./routes/login");
+const dashboardRouter = require("./routes/dashboard");
+
 //Connecting To MongoDB 
 const {CONNECTION_STRING} = process.env;
+
 mongoose.connect(CONNECTION_STRING, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
@@ -17,8 +22,6 @@ mongoose.connect(CONNECTION_STRING, {
 })
 .then(() => console.log("Connected To Database"))
 .catch(error => console.log(`Error Message: ${error.message} \n ${error}`))
-
-//Routers Modules
 
 //Initializing Server
 const server = express();
@@ -38,6 +41,8 @@ server.use(expressLayouts);//For loading ejs layouts
 server.use(express.static("public"));//for loading static files
 
 //Router Middleware
+server.use("/login", loginRouter);
+server.use("/dahsboard", dashboardRouter);
 
 //Listening on Port
 server.listen(process.env.PORT || 5000, (error) => {
