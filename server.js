@@ -5,9 +5,18 @@ if(process.env.NODE_ENV !== "production"){
 //Node Modules
 const express = require("express");
 const expressLayouts = require("express-ejs-layouts");
-const bodyParser = require("body-parser");
 const mongoose = require("mongoose");  
-const methodOverride = require("method-override")
+const methodOverride = require("method-override");
+
+//Connecting To MongoDB 
+const {CONNECTION_STRING} = process.env;
+mongoose.connect(CONNECTION_STRING, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useCreateIndex: true
+})
+.then(() => console.log("Connected To Database"))
+.catch(error => console.log(`Error Message: ${error.message} \n ${error}`))
 
 //Routers Modules
 
@@ -19,12 +28,14 @@ server.set("view engine", "ejs");
 server.set("views", __dirname + "/views");
 server.set("layout", "layouts/layout");
 
-//Middleware for all Paths
+//Form Middleware (For All Paths)
 server.use(express.json())
+server.use(express.urlencoded({extended: false}))//to send form data
+server.use(methodOverride("_method"));
+
+//Template Engine (EJS) Middleware (For All Paths)
 server.use(expressLayouts);//For loading ejs layouts
 server.use(express.static("public"));//for loading static files
-server.use(bodyParser.urlencoded({extended: false, limit: "10mb"}))//to send form data
-server.use(methodOverride("_method"));
 
 //Router Middleware
 
