@@ -5,7 +5,6 @@ if(process.env.NODE_ENV !== "production"){
 //Node Modules
 const express = require("express");
 const expressLayouts = require("express-ejs-layouts");
-const mongoose = require("mongoose");  
 const methodOverride = require("method-override");
 
 //Routers Modules
@@ -13,15 +12,7 @@ const loginRouter = require("./routes/login");
 const dashboardRouter = require("./routes/dashboard");
 
 //Connecting To MongoDB 
-const {CONNECTION_STRING} = process.env;
-
-mongoose.connect(CONNECTION_STRING, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-    useCreateIndex: true
-})
-.then(() => console.log("Connected To Database"))
-.catch(error => console.log(`Error Message: ${error.message} \n ${error}`))
+require("./config/database").connectToDb();
 
 //Initializing Server
 const server = express();
@@ -39,6 +30,11 @@ server.use(methodOverride("_method"));
 //Template Engine (EJS) Middleware (For All Paths)
 server.use(expressLayouts);//For loading ejs layouts
 server.use(express.static("public"));//for loading static files
+
+//No "/", so redirect to "/login" route
+server.get("/", (req, res) => {
+    res.redirect("/login");
+})
 
 //Router Middleware
 server.use("/login", loginRouter);
