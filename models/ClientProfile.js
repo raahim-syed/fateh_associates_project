@@ -1,3 +1,5 @@
+const {Schema, model} = require("mongoose");
+
 const ClientProfileSchema = new Schema({
     clientName: {
       type: String,
@@ -13,8 +15,12 @@ const ClientProfileSchema = new Schema({
     },
     phoneNumber: {
       type: String,
+      required: true
     },
     additionalEmails: [{
-      type: String
+      type: String,
+      required: true
     }]
-  });
+});
+
+module.exports = model("ClientProfile", ClientProfileSchema);
