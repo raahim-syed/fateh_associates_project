@@ -1,18 +1,14 @@
 const express = require("express")
 
+//Controllers
+const {getLogin, postLogin} = require("../controllers/login")
+
 const router = express.Router();
 
 //For Getting The Login Page
-router.get("/", (req, res) => {
-    res.json({title: "Login page"});
-})
+router.get("/", postLogin)
 
 //For Sending Login Details For Server To Authenticate
-router.post("/", (req, res) => {
-    //Validation And Verification Goes Here
-
-    //Redirecting To Desired Page
-    res.redirect("/dashboard");
-})
+router.post("/", getLogin)
 
 module.exports = router;

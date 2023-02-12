@@ -1,11 +1,13 @@
 const express = require("express")
 
+//Controllers
+const {renderDashboard} = require("../controllers/dashboard")
+
+//Creating Router
 const router = express.Router();
 
 //For Getting The Login Page
-router.get("/", (req, res) => {
-    res.json({title: "Dashboard Page"});
-})
+router.get("/", renderDashboard)
 
 
 
