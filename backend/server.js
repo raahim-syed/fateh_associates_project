@@ -38,7 +38,7 @@ server.get("/", (req, res) => {
 
 //Router Middleware
 server.use("/login", loginRouter);
-server.use("/dahsboard", dashboardRouter);
+server.use("/dashboard", dashboardRouter);
 
 //Listening on Port
 server.listen(process.env.PORT || 5000, (error) => {
