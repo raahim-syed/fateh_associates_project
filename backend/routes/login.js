@@ -6,9 +6,9 @@ const {getLogin, postLogin} = require("../controllers/login")
 const router = express.Router();
 
 //For Getting The Login Page
-router.get("/", postLogin)
+router.get("/", getLogin)
 
 //For Sending Login Details For Server To Authenticate
-router.post("/", getLogin)
+router.post("/", postLogin)
 
 module.exports = router;
