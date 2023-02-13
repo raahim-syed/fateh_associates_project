@@ -6,25 +6,17 @@ const CandidateProfileSchema = new Schema({
     required: true
   },
   speciality: [{
-    type: String,
+    type: Schema.Types.ObjectId,
     required: true,
-    payRate: {
-      type: Number,
-      required: true
-    },
-    chargeRate: {
-      type: Number,
-      required: true
-    }
   }],
-  supplier: {
-    type: String,
-    required: true
-  },
-  client: [{
-    type: String,
-    required: true
-  }]
+  // umbrella: {
+  //   type: Schema.Types.ObjectId,
+  //   required: true
+  // },
+  // client: [{
+  //   type: String,
+  //   required: true
+  // }]
 });
 
 module.exports = model("Candidate", CandidateProfileSchema);
