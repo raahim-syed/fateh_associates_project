@@ -1,5 +1,5 @@
 const jwt = require("jsonwebtoken")
-require("dotenv").config();
+const {SECRET} = require("../config/config");
 
 //Model(s)
 const User = require("../models/User")
@@ -16,7 +16,7 @@ module.exports = {
             const token = header.split(" ")[1]
 
             // console.log(token)
-            const payload = jwt.verify(token, process.env.SECRET)
+            const payload = jwt.verify(token, SECRET)
             // console.log(payload)
 
             //Extra Verification
