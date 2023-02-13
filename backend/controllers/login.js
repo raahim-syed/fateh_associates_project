@@ -2,12 +2,15 @@ const jwt = require("jsonwebtoken")
 const crypto = require("crypto")
 const bcrypt = require("bcryptjs")
 
+//Config
+const {SECRET} = require("../config/config");
+
 //Model(s)
 const User = require("../models/User")
 
 module.exports = {
     genToken: (id) => {
-        return jwt.sign({ id }, process.env.SECRET, { expiresIn: "1d" })
+        return jwt.sign({ id }, SECRET, { expiresIn: "1d" })
     },
     getLogin: (req, res) => {
         try{
