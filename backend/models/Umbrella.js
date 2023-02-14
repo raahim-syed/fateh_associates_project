@@ -11,11 +11,11 @@ const UmbrellaProfileSchema = new Schema({
   },
   address: {
     type: String,
-    required: true
+    required: false
   },
   VATNumber: {
     type: String,
-    required: true
+    required: false
   },
   companyNumber: {
     type: String,
@@ -34,12 +34,16 @@ const UmbrellaProfileSchema = new Schema({
   },
   bankDetails: {
     type: String,
-    required: true
+    required: false
   },
   invoices: [{
     type: Schema.Types.ObjectId,
     ref: 'Invoice'
-  }]
+  }],
+  payRate: [{
+    Day:Number, Night:Number, Sunday:Number,
+    required: true,
+   }],
 });
 
 module.exports = model("Umbrella", UmbrellaProfileSchema)
