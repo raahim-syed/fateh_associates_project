@@ -1,7 +1,7 @@
 const {Schema, model} = require("mongoose");
 
 const ClientProfileSchema = new Schema({
-    clientName: {
+    name: {
       type: String,
       required: true
     },
@@ -19,7 +19,6 @@ const ClientProfileSchema = new Schema({
     },
     additionalEmails: [{
       type: String,
-      required: false
     }]
 });
 
