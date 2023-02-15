@@ -1,48 +1,61 @@
-//Loading Schemas
+const asyncHandler = require("express-async-handler");
 const Client = require("../models/Client");
 
 module.exports = {
-    //To get a display of all the candidates from the database
-    allClients: async (req, res) => {
-        let searchOptions = {};
+  // Get all clients from the database
+  allClients: asyncHandler(async (req, res) => {
+    //Get All Clients from DB
+    const clients = await Client.find();
 
-        try{
-            //Sending Data To Client
-            res.status(200).json({data: "Some Data"});
+    res.status(200).json({ data: clients });
+  }),
 
-        }catch(error){
-            res.status("400").json({message: error.message, error})
-        }
-    },
-    //To display a single candidate
-    specificClient: async (req, res) => {
-        try{
+  // Get a single client from the database
+  specificClient: asyncHandler(async (req, res) => {
+    //Getting Single Client
+    const client = await Client.findById(req.params.id);
 
-        }catch(error){
-            res.status("400").json({message: error.message, error})
-        }
-    },
-    //To add a candidate to the DB
-    addClient: async (req, res) => {
-        try{
+    if (!client) res.status(404).json({ message: "Client not found" });
 
-        }catch(error){
-            res.status("400").json({message: error.message, error})
-        }
-    },
-    //To update a candidate in the DB
-    updateClient: async (req, res) => {
-        try{
+    if (client) res.status(200).json({ data: client });
+  }),
 
-        }catch(error){
-            res.status("400").json({message: error.message, error})
-        }
-    },
-    removeClient: async () => {
-        try{
+  // Add a client to the database
+  addClient: asyncHandler(async (req, res) => {
+    console.log(req.body);
+    const  { name, address, email, additionalEmails, phoneNumber } = req.body;
 
-        }catch(error){
-            res.status("400").json({message: error.message, error})
-        }
-    }
-}
+    //Validation
+    if(!name || !address || !email || !phoneNumber) throw new Error("Please Enter All Feilds.");
+
+    //Creating Client Object
+    const newClient = new Client(req.body);
+
+    //Saving to Database
+    const client = await newClient.save();
+
+    //Sending Data to frontend
+    res.status(201).json({ data: client });
+  }),
+
+  // Update a client in the database
+  updateClient: asyncHandler(async (req, res) => {
+    const client = await Client.findByIdAndUpdate(req.params.id, req.body, {
+      new: true,
+    });
+    //
+    if (client) res.status(200).json({ data: client });
+
+    if (!client) res.status(404).json({ message: "Client not found" });
+  }),
+
+  // Remove a client from the database
+  removeClient: asyncHandler(async (req, res) => {
+    //Removing Client from DB
+    const client = await Client.findByIdAndRemove(req.params.id);
+
+    if (client) res.status(200).json({ data: client });
+    
+    if (!client) res.status(404).json({ message: "Client not found" });
+  }),
+};

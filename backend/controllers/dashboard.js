@@ -1,15 +1,13 @@
-const User = require("../models/User")
+const asyncHandler = require("express-async-handler");
+const User = require("../models/User");
 
 module.exports = {
-    loadDashboard: async (req, res) => {
-        try{
-            //Getting User from DB
-            const user = await User.findById(req.user);
-            if(!user) throw new Error("User Not Found");
+  // Load user dashboard
+  loadDashboard: asyncHandler(async (req, res) => {
+    const user = await User.findById(req.user);
 
-            res.status(200).json({msg: `Welcome ${user.name}` , user})
-        }catch(error){
-            res.status(500).json({msg: error.message, error})
-        }
-    }
-}
+    if (!user) throw new Error("User not found");
+
+    res.status(200).json({ msg: `Welcome ${user.name}`, user });
+  }),
+};
