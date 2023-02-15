@@ -4,8 +4,6 @@ const Umbrella = require("../models/Umbrella");
 module.exports = {
     //To get a display of all the candidates from the database
     allUmbrellas: async (req, res) => {
-        let searchOptions = {};
-
         try{
             //Sending Data To Client
             res.status(200).json({data: "Some Data"});
