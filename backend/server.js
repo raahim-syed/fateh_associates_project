@@ -13,6 +13,9 @@ const dashboardRouter = require("./routes/dashboard");
 const candidateRouter = require("./routes/candidate")
 const specialityRouter = require("./routes/speciality")
 
+//Exported Middlewares
+const {checkAuthority} = require("./middlewares/checkAuthority")
+
 //Connecting To MongoDB 
 require("./config/database").connectToDb();
 
@@ -28,6 +31,9 @@ server.set("layout", "layouts/layout");
 server.use(express.json())
 server.use(express.urlencoded({extended: false}))//to send form data
 server.use(methodOverride("_method"));
+
+//JWT Middleware for authentication
+server.use("/", checkAuthority)
 
 //Template Engine (EJS) Middleware (For All Paths)
 server.use(expressLayouts);//For loading ejs layouts
