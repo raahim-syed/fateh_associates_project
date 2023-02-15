@@ -1,5 +1,4 @@
 const jwt = require("jsonwebtoken")
-const crypto = require("crypto")
 const bcrypt = require("bcryptjs")
 
 //Config
@@ -22,7 +21,7 @@ module.exports = {
     postLogin: async (req, res) => {
         try{
             const {email, password} = req.body;
-            console.log(req.body)
+
             //Checking for empty fields
             if(!email || !password) throw new Error("Please Enter All Feilds");        
     
@@ -41,6 +40,7 @@ module.exports = {
             res.status(200).json({user, token})
         }catch(error){
             console.log(error)
+
             res.status(400).json({msg: error.message, error})
         }
     }
