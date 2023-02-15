@@ -6,6 +6,9 @@ const User = require("../models/User")
 
 module.exports = {
     checkAuthority: async (req, res, next) => {
+        //Excluding paths where this middleware will run 
+        if(req.path === "/login") return next();
+
         try{
             const header = req.headers.authorization;
 
@@ -25,9 +28,12 @@ module.exports = {
 
             //Adding user object to request
             req.user = payload.id;
+
+            //Next Middleware
             next();
         }catch(error){
             res.status(401).json({ error: "Unauthorized: Invalid or expired token." });
         }
+        
     }
 }
