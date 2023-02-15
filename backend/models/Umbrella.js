@@ -10,16 +10,14 @@ const UmbrellaProfileSchema = new Schema({
     required: true
   },
   address: {
-    type: String,
-    required: false
+    type: String
   },
   VATNumber: {
     type: String,
     required: false
   },
   companyNumber: {
-    type: String,
-    required: true
+    type: String
   },
   emailAddress: {
     type: String,
@@ -41,7 +39,9 @@ const UmbrellaProfileSchema = new Schema({
     ref: 'Invoice'
   }],
   payRate: [{
-    Day:Number, Night:Number, Sunday:Number,
+    Day: Number, 
+    Night: Number, 
+    Sunday:Number,
     required: true,
    }],
 });
