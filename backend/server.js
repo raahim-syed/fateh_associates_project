@@ -15,6 +15,7 @@ const specialityRouter = require("./routes/speciality")
 
 //Exported Middlewares
 const {checkAuthority} = require("./middlewares/checkAuthority")
+const errorHandler = require("./middlewares/errorHandler")
 
 //Connecting To MongoDB 
 require("./config/database").connectToDb();
@@ -46,9 +47,12 @@ server.get("/", (req, res) => {
 
 //Router Middleware
 server.use("/login", loginRouter);
-server.use("/dashboard", dashboardRouter);
+server.use("/dashboard", dashboardRouter)
 server.use("/candidate", candidateRouter)
 server.use("/speciality", specialityRouter)
+
+//Error Handler Middleware
+server.use(errorHandler)
 
 //Listening on Port
 server.listen(process.env.PORT || 5000, (error) => {
