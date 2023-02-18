@@ -2,29 +2,123 @@ const asyncHandler = require("express-async-handler");
 const Invoice = require("../models/Invoice");
 
 module.exports = {
-    //To get a display of all the candidates from the database
-    allInvoices: asyncHandler(async (req, res) => {
-        //Sending Data To Client
-        res.status(200).json({data: "Some Data"});
-    }),
+  // Get all invoices
+  allInvoices: asyncHandler(async (req, res) => {
+    const invoices = await Invoice.find({});
+    res.status(200).json({ data: invoices });
+  }),
 
-    //To display a single candidate
-    specificInvoice: asyncHandler(async (req, res) => {
-        // your code here
-    }),
+  // Get a specific invoice by ID
+  specificInvoice: asyncHandler(async (req, res) => {
+    const { id } = req.params;
+    const invoice = await Invoice.findById(id);
 
-    //To add a candidate to the DB
-    createInvoice: asyncHandler(async (req, res) => {
-        // your code here
-    }),
+    if (!invoice) {
+      res.status(404);
+      throw new Error("Invoice not found");
+    }
 
-    //To update a candidate in the DB
-    updateInvoice: asyncHandler(async (req, res) => {
-        // your code here
-    }),
+    res.status(200).json({ data: invoice });
+  }),
 
-    //To delete a candidate from the DB
-    removeInvoice: asyncHandler(async (req, res) => {
-        // your code here
-    })
-}
+  // Create a new invoice
+  createInvoice: asyncHandler(async (req, res) => {
+    const {
+      invoiceNumber,
+      client,
+      candidateName,
+      description,
+      hours,
+      rate,
+      totalCharge,
+      VAT,
+      totalPayable,
+      companyName,
+      companyAddress,
+      issueDate,
+      dueDate,
+      paymentStatus,
+    } = req.body;
+
+    const newInvoice = await Invoice.create({
+      invoiceNumber,
+      client,
+      candidateName,
+      description,
+      hours,
+      rate,
+      totalCharge,
+      VAT,
+      totalPayable,
+      companyName,
+      companyAddress,
+      issueDate,
+      dueDate,
+      paymentStatus,
+    });
+
+    res.status(201).json({ data: newInvoice });
+  }),
+
+  // Update an existing invoice
+  updateInvoice: asyncHandler(async (req, res) => {
+    const { id } = req.params;
+    const {
+      invoiceNumber,
+      client,
+      candidateName,
+      description,
+      hours,
+      rate,
+      totalCharge,
+      VAT,
+      totalPayable,
+      companyName,
+      companyAddress,
+      issueDate,
+      dueDate,
+      paymentStatus,
+    } = req.body;
+
+    const invoice = await Invoice.findById(id);
+
+    if (!invoice) {
+      res.status(404);
+      throw new Error("Invoice not found");
+    }
+
+    invoice.invoiceNumber = invoiceNumber;
+    invoice.client = client;
+    invoice.candidateName = candidateName;
+    invoice.description = description;
+    invoice.hours = hours;
+    invoice.rate = rate;
+    invoice.totalCharge = totalCharge;
+    invoice.VAT = VAT;
+    invoice.totalPayable = totalPayable;
+    invoice.companyName = companyName;
+    invoice.companyAddress = companyAddress;
+    invoice.issueDate = issueDate;
+    invoice.dueDate = dueDate;
+    invoice.paymentStatus = paymentStatus;
+
+    const updatedInvoice = await invoice.save();
+
+    res.status(200).json({ data: updatedInvoice });
+  }),
+
+  // Delete an invoice
+  removeInvoice: asyncHandler(async (req, res) => {
+    const { id } = req.params;
+    const invoice = await Invoice.findById(id);
+
+    if (!invoice) {
+      res.status(404);
+      throw new Error("Invoice not found");
+    }
+
+    await invoice.remove();
+
+    res.status(200).json({ message: "Invoice removed" });
+  }),
+};
