@@ -19,7 +19,7 @@ const UmbrellaProfileSchema = new Schema({
   companyNumber: {
     type: String
   },
-  emailAddress: {
+  email: {
     type: String,
     required: true
   },
@@ -31,19 +31,26 @@ const UmbrellaProfileSchema = new Schema({
     required: true
   },
   bankDetails: {
-    type: String,
-    required: false
+    type: String
   },
   invoices: [{
     type: Schema.Types.ObjectId,
     ref: 'Invoice'
   }],
   payRate: [{
-    Day: Number, 
-    Night: Number, 
-    Sunday:Number,
-    required: true,
-   }],
+    Day: {
+      type: Number,
+      required: true
+    },
+    Night: {
+      type: Number,
+      required: true
+    },
+    Sunday: {
+      type: Number,
+      required: true
+    }
+  }],
 });
 
 module.exports = model("Umbrella", UmbrellaProfileSchema)
