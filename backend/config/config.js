@@ -1,7 +1,11 @@
 const crypto = require("crypto");
 
-const genSecret = () => {
-    console.log("yeet")
+const genSecret = () => {   
+    let secret;
+
+    if(process.env.NODE_ENV !== "production") return secret = "raahim";
+    
+
     // Generate a random value
     const random_value = crypto.randomBytes(32).toString("hex");
 
@@ -9,7 +13,7 @@ const genSecret = () => {
     const hash = crypto.createHash("sha256").update(random_value).digest("hex");
 
     //Assigning that value to the secret
-    const secret = hash;
+    secret = hash;
 
     return secret;
 }
