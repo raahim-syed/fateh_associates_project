@@ -1,29 +1,24 @@
-const {Schema, model} = require("mongoose");
+const { Schema, model } = require("mongoose");
 
 const CandidateProfileSchema = new Schema({
-  name: 
-  {
+  name: {
     type: String,
     required: true
   },
-  dob: 
-  {
+  dob: {
     type: Date,
     required: true,
-  }, 
-  NIN_Number: 
-  {
+  },
+  NIN_Number: {
     type: String,
     required: true,
   },
-  currAddress: 
-  {
+  currentAddress: {
     type: String,
     required: true,
-    },
-  phoneNumber: 
-  {
-    type: String, 
+  },
+  phoneNumber: {
+    type: String,
     required: true,
   },
   emailAddress: {
@@ -32,12 +27,11 @@ const CandidateProfileSchema = new Schema({
     max: 50,
     unique: true,
   },
- candidateAccountFormLink: 
- {
-  type: String,
-  default: '',
- },
-  Umbrella: {
+  candidateAccountFormLink: {
+    type: String,
+    default: '',
+  },
+  umbrella: {
     type: Schema.Types.ObjectId,
     ref: 'Umbrella',
     required: true,
@@ -45,31 +39,30 @@ const CandidateProfileSchema = new Schema({
   consultant: {
     type: String,
   },
-  // candidatePayRate: [{
-  //   Day:{
-  //     type: Number,
-  //     required: true
-  //   },
-  //   Night: {
-  //     type: Number,
-  //     required: true
-  //   },
-  //   Sunday: {
-  //     type: Number,
-  //     require: true
-  //   },
-  //   required: true,
-  // }],
+  candidatePayRate: [{
+    Day: {
+      type: Number,
+      required: true
+    },
+    Night: {
+      type: Number,
+      required: true
+    },
+    Sunday: {
+      type: Number,
+      required: true
+    },
+  }],
   // chargeRate: [{
   //   type: Schema.Types.ObjectId,
   //   ref: 'Umbrella',
   //   required: true
   // }],
-  speciality: [{
+  specialty: [{
     type: Schema.Types.ObjectId,
-    ref: 'Speciality',
+    ref: 'Specialty',
     required: true,
   }],
-}, {timestamps: true});
+}, { timestamps: true });
 
 module.exports = model("Candidate", CandidateProfileSchema);
