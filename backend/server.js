@@ -12,6 +12,8 @@ const loginRouter = require("./routes/login");
 const dashboardRouter = require("./routes/dashboard");
 const candidateRouter = require("./routes/candidate")
 const specialityRouter = require("./routes/speciality")
+const umbrellaRouter = require("./routes/umbrella")
+const invoiceRouter = require("./routes/invoice")
 
 //Exported Middlewares
 const {checkAuthority} = require("./middlewares/checkAuthority")
@@ -50,6 +52,8 @@ server.use("/login", loginRouter);
 server.use("/dashboard", dashboardRouter)
 server.use("/candidate", candidateRouter)
 server.use("/speciality", specialityRouter)
+server.use("/umbrella", umbrellaRouter)
+server.use("/invoice", invoiceRouter)
 
 //Error Handler Middleware
 server.use(errorHandler)
