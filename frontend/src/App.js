@@ -1,24 +1,47 @@
 //Core Modules
-
-//Components
-import Login from "./components/forms/Login"
-import ClientForm from "./components/forms/ClientForm"
-import CandidateFrom from "./components/forms/CandidateForm"
-import UmbrellaForm from "./components/forms/UmbrellaFrom";
-import SpecialityForm from "./components/forms/SpecialityForm";
-
-//SideBar
-import Sidebar from "./components/sidebar/Sidebar";
+import { createBrowserRouter, Route, createRoutesFromElements, RouterProvider } from "react-router-dom"
 
 //CSS
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
-import { Col, Container, Row } from "react-bootstrap";
+
+//Pages
+import Login from "./pages/Login"
+import Candidate from "./pages/Candidate"
+
+//Layouts
+import DashboardLayout from "./pages/layouts/DashboardLayout"
+
+const router = createBrowserRouter(
+  createRoutesFromElements(
+    <Route path="/">
+      <Route path="login" element={<Login />} />
+
+
+      <Route path="dashboard" element={<DashboardLayout />}>
+        <Route path="candidates" element={<Candidate />}>
+
+        </Route>
+        <Route path="umbrella" element={<Candidate />} >
+
+        </Route>
+        <Route path="client" element={<Candidate />} >
+
+        </Route>
+        <Route path="specialities" element={<Candidate />} >
+
+        </Route>
+      </Route>
+    </Route>
+  )
+)
+
 
 function App() {
   return (
     <>
-    <Container fluid>
+    <RouterProvider router={router} />
+    {/* <Container fluid>
       <Row>
         <Col md="2">
           <Sidebar />
@@ -27,7 +50,7 @@ function App() {
           <CandidateFrom />
         </Col>
       </Row>
-    </Container>
+    </Container> */}
       {/* <Login />
       <hr>
       </hr>

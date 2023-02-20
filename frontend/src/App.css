@@ -5,3 +5,12 @@
   font-size: 1.2rem;
   border-radius: 35px !important;
 }
+/* Sidebar */
+.sidebar > a{
+  display: inline-block;
+  padding: 1rem;
+  text-decoration: none;
+}
+.sidebar >a.active{
+  background-color: #333;
+}

@@ -3,7 +3,7 @@ import { Form, Button, Container } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import { login } from "../../features/auth/authService";
 
-const Login = () => {
+const LoginForm = () => {
   const dispatch = useDispatch();
 
   const handleSubmit = (event) => {
@@ -59,4 +59,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default LoginForm;
