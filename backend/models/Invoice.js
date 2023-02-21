@@ -1,16 +1,10 @@
 const {Schema, model} = require("mongoose")
 
+
+//Main Objective is To Store Invoice (PDF) and Checking the Payment Status.
+
+
 const InvoiceSchema = new Schema({
-    invoiceNumber: {
-        type: Number,
-        required: true,
-        unique: true
-    },
-    client: {
-        type: Schema.Types.ObjectId,
-        ref: 'Client',
-        required: true
-    },
     candidateName: {
         type: Schema.Types.ObjectId,
         ref: "Candidate",
@@ -18,45 +12,28 @@ const InvoiceSchema = new Schema({
     },
     description: {
         type: String,
-        required: true
     },
-    hours: {
-        type: Number,
-        required: true
-    },
-    rate: {
-        type: Number,
-        required: true
-    },
-    totalCharge: {
-        type: Number,
-        required: true
-    },
-    VAT: {
-        type: Number,
-        required: true
-    },
-    totalPayable: {
-        type: Number,
-        required: true
-    },
-    companyName: {
-        type: String,
-        required: true
-    },
-    companyAddress: {
-        type: String,
+
+    //From Which Umbrella Invoice is Recieved
+    umbrella: {
+        type: Schema.Types.ObjectId,
+        ref: 'Umbrella',
         required: true,
-    },
+      },
+
+    //Time When the Invoice is Recieved From the Umbrella
     issueDate: {
         type: Date,
         default: Date.now,
         required: true
     },
-    dueDate: {
-        type: Date,
+    // Compulsory
+    invoiceLink: {
+        type: String,
         required: true
     },
+
+    //Status If the Invoice is Payed or Not
     paymentStatus: {
         type: Boolean,
         default: false,

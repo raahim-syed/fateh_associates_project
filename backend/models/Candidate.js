@@ -1,5 +1,10 @@
 const { Schema, model } = require("mongoose");
 
+/*
+The Main Information of Client (Doctors/Nurses) is Stored Here.
+Not Much Data is Needed. The Basic are to be Fulfilled.
+*/
+
 const CandidateProfileSchema = new Schema({
   name: {
     type: String,
@@ -39,6 +44,10 @@ const CandidateProfileSchema = new Schema({
   consultant: {
     type: String,
   },
+
+  //This Payrate is the Base Payrate, This Can Be Changed if the
+  // Candidtate Works with a Different Client or in Different Ward
+
   candidatePayRate: [{
     Day: {
       type: Number,
@@ -53,16 +62,14 @@ const CandidateProfileSchema = new Schema({
       required: true
     },
   }],
-  // chargeRate: [{
-  //   type: Schema.Types.ObjectId,
-  //   ref: 'Umbrella',
-  //   required: true
-  // }],
+  
   specialty: [{
     type: Schema.Types.ObjectId,
     ref: 'Specialty',
     required: true,
   }],
+
+
 }, { timestamps: true });
 
 module.exports = model("Candidate", CandidateProfileSchema);

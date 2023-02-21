@@ -1,5 +1,8 @@
 const {Schema, model} = require("mongoose");
 
+/* Umbrella is Where the Breakdown of Hours is Sent and Expects an Invoice */
+
+
 const UmbrellaProfileSchema = new Schema({
   name: {
     type: String,
@@ -12,13 +15,9 @@ const UmbrellaProfileSchema = new Schema({
   address: {
     type: String
   },
-  VATNumber: {
-    type: String,
-    required: false
-  },
-  companyNumber: {
-    type: String
-  },
+
+
+  // ----------Important-------------
   email: {
     type: String,
     required: true
@@ -30,27 +29,14 @@ const UmbrellaProfileSchema = new Schema({
     type: String,
     required: true
   },
-  bankDetails: {
-    type: String
-  },
+  //---------------------------------
+
+  //All Invoices Recieved From a Specific Umbrella
   invoices: [{
     type: Schema.Types.ObjectId,
     ref: 'Invoice'
   }],
-  payRate: [{
-    Day: {
-      type: Number,
-      required: true
-    },
-    Night: {
-      type: Number,
-      required: true
-    },
-    Sunday: {
-      type: Number,
-      required: true
-    }
-  }],
+
 });
 
 module.exports = model("Umbrella", UmbrellaProfileSchema)

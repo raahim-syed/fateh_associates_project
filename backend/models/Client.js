@@ -1,5 +1,11 @@
 const {Schema, model} = require("mongoose");
 
+   /* 
+   Not Much information of Cliet is Needed. 
+   The Main Information is the Name of the Client (Hospital)
+   and the Wards 
+   */
+
 const ClientProfileSchema = new Schema({
     name: {
       type: String,
@@ -7,15 +13,12 @@ const ClientProfileSchema = new Schema({
     },
     address: {
       type: String,
-      required: true
     },
     email: {
       type: String,
-      required: true
     },
     phoneNumber: {
       type: String,
-      required: true
     },
     additionalEmails: [{
       type: String,

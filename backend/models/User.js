@@ -1,5 +1,7 @@
 const {Schema, model} = require("mongoose");
 
+// To Sign In into the Dashboard (Web Application)
+
 const UserSchema = new Schema({
     name: {
         type: String,
