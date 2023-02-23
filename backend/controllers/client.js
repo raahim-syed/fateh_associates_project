@@ -16,20 +16,26 @@ module.exports = {
     const client = await Client.findById(req.params.id);
 
     if (!client) res.status(404).json({ message: "Client not found" });
-
-    if (client) res.status(200).json({ data: client });
+    else res.status(200).json({ data: client });
   }),
 
   // Add a client to the database
   addClient: asyncHandler(async (req, res) => {
-    console.log(req.body);
-    const  { name, address, email, additionalEmails, phoneNumber } = req.body;
+    const { name, address, email, phoneNumber, additionalEmails } = req.body;
 
     //Validation
-    if(!name || !address || !email || !phoneNumber) throw new Error("Please Enter All Feilds.");
+    if (!name || !address || !email || !phoneNumber) {
+      throw new Error("Please Enter All Fields.");
+    }
 
     //Creating Client Object
-    const newClient = new Client(req.body);
+    const newClient = new Client({
+      name,
+      address,
+      email,
+      phoneNumber,
+      additionalEmails,
+    });
 
     //Saving to Database
     const client = await newClient.save();
@@ -40,13 +46,14 @@ module.exports = {
 
   // Update a client in the database
   updateClient: asyncHandler(async (req, res) => {
-    const client = await Client.findByIdAndUpdate(req.params.id, req.body, {
-      new: true,
-    });
-    //
-    if (client) res.status(200).json({ data: client });
+    const client = await Client.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      { new: true }
+    );
 
     if (!client) res.status(404).json({ message: "Client not found" });
+    else res.status(200).json({ data: client });
   }),
 
   // Remove a client from the database
@@ -54,8 +61,29 @@ module.exports = {
     //Removing Client from DB
     const client = await Client.findByIdAndRemove(req.params.id);
 
-    if (client) res.status(200).json({ data: client });
-    
     if (!client) res.status(404).json({ message: "Client not found" });
+    else res.status(200).json({ data: client });
+  }),
+
+  // Get all wards for a specific client
+  getClientWards: asyncHandler(async (req, res) => {
+    const { id } = req.params;
+
+    // Get client
+    const client = await Client.findById(id);
+
+    if (!client) {
+      return res.status(404).json({ message: "Client not found" });
+    }
+
+    // Get all wards for the client
+    const wards = await Client.aggregate([
+      { $match: { _id: client._id } },
+      { $lookup: { from: "wards", localField: "_id", foreignField: "client", as: "wards" } },
+      { $unwind: { path: "$wards", preserveNullAndEmptyArrays: true } },
+      { $replaceRoot: { newRoot: "$wards" } },
+    ]);
+
+    res.status(200).json({ data: wards });
   }),
 };
