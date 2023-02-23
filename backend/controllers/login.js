@@ -37,7 +37,7 @@ module.exports = {
             const token = module.exports.genToken(user.id);
 
             //Sending response if everything works
-            res.status(200).json({user, token})
+            res.status(200).json({user: user.name, token})
         }catch(error){
             console.log(error)
 
