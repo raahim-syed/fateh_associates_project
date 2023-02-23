@@ -1,124 +1,70 @@
 const asyncHandler = require("express-async-handler");
 const Invoice = require("../models/Invoice");
+const Candidate = require("../models/Candidate");
+const Umbrella = require("../models/Umbrella");
 
-module.exports = {
-  // Get all invoices
-  allInvoices: asyncHandler(async (req, res) => {
-    const invoices = await Invoice.find({});
-    res.status(200).json({ data: invoices });
-  }),
+const createInvoice = asyncHandler(async (req, res) => {
+  const {
+    candidateName,
+    description,
+    umbrella,
+    invoiceLink,
+    paymentStatus = false
+  } = req.body;
 
-  // Get a specific invoice by ID
-  specificInvoice: asyncHandler(async (req, res) => {
-    const { id } = req.params;
-    const invoice = await Invoice.findById(id);
+  // Validate the request body against the schema
+  const invoice = new Invoice({
+    candidateName,
+    description,
+    umbrella,
+    invoiceLink,
+    paymentStatus
+  });
+  const validationResult = invoice.validateSync();
+  if (validationResult) {
+    res.status(400).json({ error: validationResult.message });
+    return;
+  }
 
-    if (!invoice) {
-      res.status(404);
-      throw new Error("Invoice not found");
+  // Check if the referenced candidate exists
+  const candidate = await Candidate.findById(candidateName);
+  if (!candidate) {
+    res.status(400).json({ error: "Invalid candidate ID" });
+    return;
+  }
+
+  // Check if the referenced umbrella exists
+  const umbrellaObj = await Umbrella.findById(umbrella);
+  if (!umbrellaObj) {
+    res.status(400).json({ error: "Invalid umbrella ID" });
+    return;
+  }
+
+  // Create the new invoice and send it as a response
+  const newInvoice = await Invoice.create({
+    candidateName,
+    description,
+    umbrella,
+    invoiceLink,
+    paymentStatus
+  });
+
+  res.status(201).json({ data: newInvoice });
+});
+
+const getInvoicesWithCandidates = asyncHandler(async (req, res) => {
+  const invoices = await Invoice.aggregate([
+    {
+      $lookup: {
+        from: "candidates",
+        localField: "candidateName",
+        foreignField: "_id",
+        as: "candidate"
+      }
     }
+  ]);
 
-    res.status(200).json({ data: invoice });
-  }),
+  res.status(200).json({ data: invoices });
+});
 
-  // Create a new invoice
-  createInvoice: asyncHandler(async (req, res) => {
-    const {
-      invoiceNumber,
-      client,
-      candidateName,
-      description,
-      hours,
-      rate,
-      totalCharge,
-      VAT,
-      totalPayable,
-      companyName,
-      companyAddress,
-      issueDate,
-      dueDate,
-      paymentStatus,
-    } = req.body;
-
-    const newInvoice = await Invoice.create({
-      invoiceNumber,
-      client,
-      candidateName,
-      description,
-      hours,
-      rate,
-      totalCharge,
-      VAT,
-      totalPayable,
-      companyName,
-      companyAddress,
-      issueDate,
-      dueDate,
-      paymentStatus,
-    });
-
-    res.status(201).json({ data: newInvoice });
-  }),
-
-  // Update an existing invoice
-  updateInvoice: asyncHandler(async (req, res) => {
-    const { id } = req.params;
-    const {
-      invoiceNumber,
-      client,
-      candidateName,
-      description,
-      hours,
-      rate,
-      totalCharge,
-      VAT,
-      totalPayable,
-      companyName,
-      companyAddress,
-      issueDate,
-      dueDate,
-      paymentStatus,
-    } = req.body;
-
-    const invoice = await Invoice.findById(id);
-
-    if (!invoice) {
-      res.status(404);
-      throw new Error("Invoice not found");
-    }
-
-    invoice.invoiceNumber = invoiceNumber;
-    invoice.client = client;
-    invoice.candidateName = candidateName;
-    invoice.description = description;
-    invoice.hours = hours;
-    invoice.rate = rate;
-    invoice.totalCharge = totalCharge;
-    invoice.VAT = VAT;
-    invoice.totalPayable = totalPayable;
-    invoice.companyName = companyName;
-    invoice.companyAddress = companyAddress;
-    invoice.issueDate = issueDate;
-    invoice.dueDate = dueDate;
-    invoice.paymentStatus = paymentStatus;
-
-    const updatedInvoice = await invoice.save();
-
-    res.status(200).json({ data: updatedInvoice });
-  }),
-
-  // Delete an invoice
-  removeInvoice: asyncHandler(async (req, res) => {
-    const { id } = req.params;
-    const invoice = await Invoice.findById(id);
-
-    if (!invoice) {
-      res.status(404);
-      throw new Error("Invoice not found");
-    }
-
-    await invoice.remove();
-
-    res.status(200).json({ message: "Invoice removed" });
-  }),
-};
+module.exports = { createInvoice, getInvoicesWithCandidates };
