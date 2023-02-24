@@ -11,11 +11,11 @@ import  {useLoginMutation} from  "../../features/auth/authApiSlice"
 
 const LoginForm = () => {
   //References
-  const userRef = useRef();
+  const emailRef = useRef();
   const errRef = useRef();
 
   //States
-  const [user, setUser] = useState("");
+  const [email, setEmail] = useState("");
   const [pwd, setPwd] = useState("")
   const [errorMsg, setErrMsg] = useState("")
 
@@ -31,26 +31,26 @@ const LoginForm = () => {
   //Setting form feild in focus when login page loads
   useEffect(() => {
     //Focusing on load
-    userRef.current.focus();
+    emailRef.current.focus();
   }, [])
 
   //Keeping Error MEssages Clean
   useEffect(() => {
     setErrMsg("")
-  }, [user, pwd])
+  }, [email, pwd])
 
-  //Submitting form data to server
+  //Submitting form data to se rver
   const handleSubmit = async (event) => {
     event.preventDefault();
     try{
-      const userData = await login({user, pwd}).unwrap();
+      const userData = await login({email, password: pwd}).unwrap();
       console.log(userData)
 
       //Dispatching data to store
-      dispatch(setCredentials({...userData, user}))
+      dispatch(setCredentials({...userData, email}))
 
       //Reseting local state (We don't want to store this as it can be seen by anyone)
-      setUser("")
+      setEmail("")
       setPwd("")
 
       //Redirecting to dashboard
@@ -62,7 +62,7 @@ const LoginForm = () => {
   }
 
   //Form Input Event Handling
-  const handleUserChange = (event) => setUser(event.target.value);
+  const handleEmailChange = (event) => setEmail(event.target.value);
   const handlePwdChange = (event) => setPwd(event.target.value);
 
   return (
@@ -75,11 +75,11 @@ const LoginForm = () => {
         <Form.Group>
           <Form.Label>Email</Form.Label>
           <Form.Control
-            ref={userRef}
+            ref={emailRef}
             type="email"
             name="email"
-            value={user}
-            onChange={handleUserChange}
+            value={email}
+            onChange={handleEmailChange}
             required
           />
         </Form.Group>
