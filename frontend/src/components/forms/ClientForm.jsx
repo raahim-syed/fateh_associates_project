@@ -1,59 +1,110 @@
 import React, { useState } from "react";
-import { Form, Button, Container } from "react-bootstrap";
+import { Form, Button } from "react-bootstrap";
 
-const Login = () => {
+const ClientProfileForm = () => {
+  const [formData, setFormData] = useState({
+    name: "",
+    address: "",
+    email: "",
+    phoneNumber: "",
+    additionalEmails: [],
+  });
+
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      [name]: value,
+    }));
+  };
+
+  const handleAdditionalEmailsChange = (event, index) => {
+    const { value } = event.target;
+    setFormData((prevFormData) => {
+      const additionalEmails = [...prevFormData.additionalEmails];
+      additionalEmails[index] = value;
+      return {
+        ...prevFormData,
+        additionalEmails,
+      };
+    });
+  };
+
+  const handleAddEmail = () => {
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      additionalEmails: [...prevFormData.additionalEmails, ""],
+    }));
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    // Submit the form data to the server or perform other actions
+  };
 
   return (
-    <Container className="d-flex flex-column align-items-center justify-content-center" style={{ minHeight: "100vh" }}>
-        <h1 className="mb-1">Add a Client</h1>
-      <Form style={{ minWidth: "400px" }}>
-        <Form.Group>
-          <Form.Label>Client Name:</Form.Label>
-          <Form.Control
-            type="text"
-            name="name"
-            required
-          />
-        </Form.Group>
+    <Form onSubmit={handleSubmit}>
+      <Form.Group controlId="name">
+        <Form.Label>Name*</Form.Label>
+        <Form.Control
+          type="text"
+          name="name"
+          value={formData.name}
+          onChange={handleChange}
+          required
+        />
+      </Form.Group>
 
-        <Form.Group>
-          <Form.Label>Client Address</Form.Label>
-          <Form.Control
-            type="text"
-            name="address"
-            required
-          />
-        </Form.Group>
+      <Form.Group controlId="address">
+        <Form.Label>Address</Form.Label>
+        <Form.Control
+          type="text"
+          name="address"
+          value={formData.address}
+          onChange={handleChange}
+        />
+      </Form.Group>
 
-        <Form.Group>
-          <Form.Label>Client Email</Form.Label>
+      <Form.Group controlId="email">
+        <Form.Label>Email</Form.Label>
+        <Form.Control
+          type="email"
+          name="email"
+          value={formData.email}
+          onChange={handleChange}
+        />
+      </Form.Group>
+
+      <Form.Group controlId="phoneNumber">
+        <Form.Label>Phone Number</Form.Label>
+        <Form.Control
+          type="tel"
+          name="phoneNumber"
+          value={formData.phoneNumber}
+          onChange={handleChange}
+        />
+      </Form.Group>
+
+      <Form.Group controlId="additionalEmails">
+        <Form.Label>Additional Emails</Form.Label>
+        {formData.additionalEmails.map((email, index) => (
           <Form.Control
+            key={index}
             type="email"
-            name="email"
-            required
+            value={email}
+            onChange={(event) => handleAdditionalEmailsChange(event, index)}
           />
-        </Form.Group>
+        ))}
+        <Button variant="secondary" onClick={handleAddEmail}>
+          Add Email
+        </Button>
+      </Form.Group>
 
-        <Form.Group>
-          <Form.Label>Additional Email</Form.Label>
-          <Form.Control
-            type="email"
-            name="additionalEmails"
-          />
-        </Form.Group>
-
-        <Form.Group>
-          <Form.Label>Phone Number</Form.Label>
-          <Form.Control
-            type="text"
-            name="phoneNumber"
-          />
-        </Form.Group>
-
-        <Button type="submit" className="btn btn-success mt-1">Add Client</Button>
-      </Form>
-    </Container>
+      <Button variant="primary" type="submit">
+        Submit
+      </Button>
+    </Form>
   );
 };
 
-export default Login;
+export default ClientProfileForm;
