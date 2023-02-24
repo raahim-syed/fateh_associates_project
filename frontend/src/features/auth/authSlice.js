@@ -18,8 +18,6 @@ const authSlice = createSlice({
   },
 });
 
-console.log(authSlice);
-
 //Reducer Functions
 export const { setCredentials, logOut } = authSlice.actions;
 

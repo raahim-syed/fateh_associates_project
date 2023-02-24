@@ -15,9 +15,7 @@ export const authApiSlice = apiSlice.injectEndpoints({
 })
 
 //Exporting Hooks
-export const {
-  useLoginMutation
-} = authApiSlice;
+export const { useLoginMutation } = authApiSlice;
 
 
 
