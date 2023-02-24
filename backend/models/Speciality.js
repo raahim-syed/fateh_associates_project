@@ -11,11 +11,23 @@ const {Schema, model} = require("mongoose")
 
 const SpecialitySchema = new Schema({
 
+  //Candidate Name <Whose Speciality is Being Defined>
+  candidateName: {
+    type: Schema.Types.ObjectId,
+    ref: "Candidate",
+    required: true
+},
+
     //Name of Speciality
     name:{
         type: String,
         required: true
     },
+
+    //Description of the Speciality (Optional)
+    description: {
+      type: String,
+  },
 
     //Rate of Specialty
     payRate: [{
