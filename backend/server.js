@@ -6,6 +6,8 @@ if(process.env.NODE_ENV !== "production"){
 const express = require("express");
 const expressLayouts = require("express-ejs-layouts");
 const methodOverride = require("method-override");
+const cors = require("cors")
+const helmet = require("helmet")
 
 //Routers Modules
 const loginRouter = require("./routes/login");
@@ -30,21 +32,20 @@ server.set("view engine", "ejs");
 server.set("views", __dirname + "/views");
 server.set("layout", "layouts/layout");
 
-// CORS Middleware Setup
-server.use((req, res, next) => {
-    res.header('Access-Control-Allow-Origin', 'http://localhost:5000, http://localhost:5000/login');
-    res.header('Access-Control-Allow-Methods', 'GET, PUT, POST, DELETE');
-    res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, Content-Length, X-Requested-With');
-    next();
-});
-
-//Form Middleware (For All Paths)
+//Configuration For Recieving Data
 server.use(express.json())
+// CORS Middleware Setup
+server.use(helmet());
+server.use(helmet.crossOriginResourcePolicy({ policy: "cross-origin" }));
+
 server.use(express.urlencoded({extended: false}))//to send form data
 server.use(methodOverride("_method"));
+server.use(cors())
+
 
 //JWT Middleware for authentication
 server.use("/", checkAuthority)
+
 
 //Template Engine (EJS) Middleware (For All Paths)
 server.use(expressLayouts);//For loading ejs layouts
@@ -58,10 +59,10 @@ server.get("/", (req, res) => {
 //Router Middleware
 server.use("/login", loginRouter);
 server.use("/dashboard", dashboardRouter)
-server.use("/candidate", candidateRouter)
-server.use("/speciality", specialityRouter)
-server.use("/umbrella", umbrellaRouter)
-server.use("/invoice", invoiceRouter)
+server.use("/dashboard/candidate", candidateRouter)
+server.use("/dashboard/specialities", specialityRouter)
+server.use("/dashboard/umbrella", umbrellaRouter)
+server.use("/dashboard/invoice", invoiceRouter)
 
 //Error Handler Middleware
 server.use(errorHandler)

@@ -43,6 +43,8 @@ module.exports = {
     }),
     specificSpeciality: asyncHandler(async (req, res) => {
         const { id } = req.params;
+
+        console.log(req.params)
         const speciality = await Speciality.findById(id);
 
         if (!speciality) throw new Error("Speciality not found");
@@ -53,6 +55,7 @@ module.exports = {
         //Getting ID and Data form request object
         const { id } = req.params;
         const { name, chargeRate, payRate } = req.body;
+
 
         //Form Validation
         if (!name || !chargeRate || !payRate) throw new Error("Please enter all fields");
