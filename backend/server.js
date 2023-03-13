@@ -4,7 +4,6 @@ if(process.env.NODE_ENV !== "production"){
 
 //Node Modules
 const express = require("express");
-const expressLayouts = require("express-ejs-layouts");
 const methodOverride = require("method-override");
 const cors = require("cors")
 const helmet = require("helmet")
@@ -43,14 +42,8 @@ server.use(express.urlencoded({extended: false}))//to send form data
 server.use(methodOverride("_method"));
 server.use(cors())
 
-
 //JWT Middleware for authentication
 server.use("/", checkAuthority)
-
-
-//Template Engine (EJS) Middleware (For All Paths)
-server.use(expressLayouts);//For loading ejs layouts
-server.use(express.static("public"));//for loading static files
 
 //No "/", so redirect to "/login" route
 server.get("/", (req, res) => {
