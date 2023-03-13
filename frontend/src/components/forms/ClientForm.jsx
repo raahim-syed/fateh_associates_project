@@ -1,5 +1,7 @@
-import React, { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Form, Button } from "react-bootstrap";
+import { useAddClientMutation } from "../../features/client/clientApiSlice";
+
 
 const ClientProfileForm = () => {
   const [formData, setFormData] = useState({
@@ -9,6 +11,15 @@ const ClientProfileForm = () => {
     phoneNumber: "",
     additionalEmails: [],
   });
+
+  // const nameRef = useRef("");
+
+  // useEffect(() => {
+  //   nameRef.foc
+  // }, [])
+
+  //RTQ Query Hooks
+  const [addClient, isLoading] = useAddClientMutation();
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -20,6 +31,7 @@ const ClientProfileForm = () => {
 
   const handleAdditionalEmailsChange = (event, index) => {
     const { value } = event.target;
+
     setFormData((prevFormData) => {
       const additionalEmails = [...prevFormData.additionalEmails];
       additionalEmails[index] = value;
@@ -37,9 +49,12 @@ const ClientProfileForm = () => {
     }));
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    // Submit the form data to the server or perform other actions
+    // Submitting to Server
+    const addedClient = await addClient(formData);
+
+    console.log(addedClient)
   };
 
   return (

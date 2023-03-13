@@ -5,8 +5,8 @@ const state = {
     address: null,
     email: null,
     phoneNumber: null,
-    additionalEmails: [],
-}
+    additionalEmails: [null]
+};
 
 const clientSlice = createSlice({
     name: "client",

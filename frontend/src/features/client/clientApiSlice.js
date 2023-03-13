@@ -2,22 +2,24 @@ import { apiSlice } from "../../app/api/api";
 
 const clientApiSlice = apiSlice.injectEndpoints({
     endpoints: builder => ({
+        //Get Requests
         getClients: builder.query({
             query: () => ({
                 url: "/dashboard/client"
-            })
-        }),
-        addClient: builder.mutation({
-            query: (body) => ({
-                url: "/dashboard/client",
-                method: "POST",
-                body,
             })
         }),
         getSpecificClient: builder.query({
             query: ({id}) => ({
                 url: "/dashboard/client/info/" + id,
                 params: id
+            })
+        }),
+        //Post/Update/Delete Requests
+        addClient: builder.mutation({
+            query: (body) => ({
+                url: "/dashboard/client",
+                method: "POST",
+                body,
             })
         }),
         updateClient: builder.mutation({
@@ -27,7 +29,7 @@ const clientApiSlice = apiSlice.injectEndpoints({
                 body,
             })
         }),
-        deleteClient: builder.query({
+        deleteClient: builder.mutation({
             query: ({id}) => ({
                 url: "/dashboard/client/dlete/" + id,
                 method: "DELETE",
@@ -36,3 +38,11 @@ const clientApiSlice = apiSlice.injectEndpoints({
         })
     })
 })
+
+export const {
+    useGetClientsQuery,
+    useDeleteClientMutation,
+    useGetSpecificClientQuery,
+    useUpdateClientMutation,
+    useAddClientMutation,
+} = clientApiSlice
