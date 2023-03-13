@@ -1,6 +1,9 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react"
 
-
+/*
+    Base Query:
+    The first part of the URL and the most common headers are set here
+*/
 export const baseQuery = fetchBaseQuery({
     baseUrl: "http://localhost:5000",
     //To Get Cookie
@@ -14,8 +17,6 @@ export const baseQuery = fetchBaseQuery({
         return headers;
     }
 })
-
-console.log(`Base Query: \n` , baseQuery);
 
 export const apiSlice = createApi({
     endpoints: builder => ({}),
