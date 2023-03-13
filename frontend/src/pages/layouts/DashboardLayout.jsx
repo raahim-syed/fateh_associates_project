@@ -9,11 +9,8 @@ import Sidebar from "../../components/sidebar/Sidebar"
 
 export default function DashboardLayout() {
   const user = useSelector(getUser)
-  const token = useSelector(getToken)
 
   const welcomeMsg = user ? `Welcome User: ${user}` : "Welcome";
-
-  console.log(token)
 
   return (
     <>

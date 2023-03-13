@@ -7,6 +7,10 @@ const RequireAuth = () => {
     const { token } = useSelector(getToken);
     const location = useLocation();
 
+    console.log(token)
+
+    if(!token) console.log("Token not found")
+
   return (
     token ? <Outlet /> : <Navigate to="/login" state={{from: location}} replace />
   )

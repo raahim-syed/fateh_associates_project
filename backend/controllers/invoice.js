@@ -3,6 +3,24 @@ const Invoice = require("../models/Invoice");
 const Candidate = require("../models/Candidate");
 const Umbrella = require("../models/Umbrella");
 
+const allInvoices = asyncHandler(async (req, res) => {
+  const invoices = await Invoice.find({});
+
+  if(!invoices) res.status(200).json({msg: "No Invoices Found!"})
+
+  res.status(200).json({msg: "Invoices Found!",invoices: invoices})
+})
+
+const specificInvoice = asyncHandler(async (req, res) => {
+  const searchParams = {...req.params.id};
+
+  const invoice = Invoice.find(searchParams)
+
+  if(!invoice) res.status(200).json({msg: "no mathcing invoice found"})
+
+  res.status(200).json({msg: "Invoices Found!", invoice: invoice})
+})
+
 const createInvoice = asyncHandler(async (req, res) => {
   const {
     candidateName,
@@ -52,6 +70,18 @@ const createInvoice = asyncHandler(async (req, res) => {
   res.status(201).json({ data: newInvoice });
 });
 
+const updateInvoice = asyncHandler(async () => {
+  res.status(200).json({
+    msg: "Updated"
+  })
+})
+
+const removeInvoice = asyncHandler(async () => {
+  res.status(200).json({
+    msg: "removed"
+  })
+})
+
 const getInvoicesWithCandidates = asyncHandler(async (req, res) => {
   const invoices = await Invoice.aggregate([
     {
@@ -67,4 +97,4 @@ const getInvoicesWithCandidates = asyncHandler(async (req, res) => {
   res.status(200).json({ data: invoices });
 });
 
-module.exports = { createInvoice, getInvoicesWithCandidates };
+module.exports = {specificInvoice, allInvoices, createInvoice, getInvoicesWithCandidates, updateInvoice, removeInvoice };

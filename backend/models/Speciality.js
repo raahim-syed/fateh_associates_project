@@ -21,16 +21,17 @@ const SpecialitySchema = new Schema({
     //Name of Speciality
     name:{
         type: String,
+        unique: true,
         required: true
     },
 
     //Description of the Speciality (Optional)
     description: {
       type: String,
-  },
+    },
 
     //Rate of Specialty
-    payRate: [{
+    payRate: {
       Day: {
         type: Number,
         required: true
@@ -43,8 +44,7 @@ const SpecialitySchema = new Schema({
         type: Number,
         required: true
       },
-    }],
-
+    },
 })
 
 

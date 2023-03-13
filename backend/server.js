@@ -15,6 +15,7 @@ const dashboardRouter = require("./routes/dashboard");
 const candidateRouter = require("./routes/candidate")
 const specialityRouter = require("./routes/speciality")
 const umbrellaRouter = require("./routes/umbrella")
+const clientRouter = require("./routes/client")
 const invoiceRouter = require("./routes/invoice")
 
 //Exported Middlewares
@@ -60,9 +61,10 @@ server.get("/", (req, res) => {
 server.use("/login", loginRouter);
 server.use("/dashboard", dashboardRouter)
 server.use("/dashboard/candidate", candidateRouter)
-server.use("/dashboard/specialities", specialityRouter)
+server.use("/dashboard/speciality", specialityRouter)
 server.use("/dashboard/umbrella", umbrellaRouter)
 server.use("/dashboard/invoice", invoiceRouter)
+server.use("/dashboard/client", clientRouter)
 
 //Error Handler Middleware
 server.use(errorHandler)

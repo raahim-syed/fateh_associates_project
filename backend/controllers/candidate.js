@@ -1,3 +1,4 @@
+const asyncHandler = require("express-async-handler");
 //Loading Schemas
 const Candidate = require("../models/Candidate");
 const Speciality = require("../models/Speciality");
@@ -6,8 +7,11 @@ module.exports = {
     //To get a display of all the candidates from the database
     allCandidates: asyncHandler(async (req, res) => {
         const candidates = await Candidate.find();
+
+        if(!candidates) res.status(200).json({msg: "No data found"})
+
         res.status(200).json({ data: candidates });
-    }),
+    }), 
 
     //To display a single candidate
     specificCandidate: asyncHandler(async (req, res) => {
@@ -88,21 +92,21 @@ module.exports = {
           candidate.specialty = specialty || candidate.specialty;
 
           const updatedCandidate = await candidate.save();
-          res.status(200).json({ data: updatedCandidate });
+          res.status(200).json({ msg: "Candidates Found!",candidate: updatedCandidate });
         } else {
             res.status(404).json({ message: "Candidate not found" });
         }
     }),
 
     //To delete a candidate from the DB
-    deleteCandidateById: asyncHandler(async (req, res) => {
+    removeCandidate: asyncHandler(async (req, res) => {
         const candidate = await Candidate.findById(req.params.id);
         if (!candidate) {
           res.status(404).json({ message: "Candidate not found" });
           return;
         }
         await candidate.remove();
-        res.status(200).json({ message: "Candidate removed" });
+        res.status(200).json({ message: "Candidate removed" , candidate: candidate});
     }),
 
 };

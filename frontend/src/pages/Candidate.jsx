@@ -1,7 +1,29 @@
 import CandidateForm from "../components/forms/CandidateForm"
 import DynamicTable from "../components/DynamicTable"
 
+//Query
+import { useGetCandidatesQuery } from "../features/candidates/candidateApiSlice"
+
+import { useDispatch, useSelector } from "react-redux"
+import { useEffect } from "react"
+import { getCandidateData, setCandidateData } from "../features/candidates/candidatesSlice"
+
 export default function Candidate() {
+  //Getting State From Store
+  const allCandidates = useSelector(state => state.candidate);
+
+  //Dispacther
+  const dispatch = useDispatch()
+
+  //Candidates
+  const candidates = useGetCandidatesQuery();
+  console.log(candidates)
+  useEffect(() => {
+    dispatch(setCandidateData({name: "raahim"}))
+    console.log(allCandidates)
+    // dispatch(setCandidateData(candidates.data.data))
+  }, [])
+
 
   const tableHead = ["Name", "NIN", "Email", "Umbrella","Client","Something"]
 
@@ -26,6 +48,10 @@ export default function Candidate() {
     <>
       <h1>All Candidates</h1>
       <DynamicTable tableHead={tableHead} tableData={candidateData} />
+
+      <br />
+
+      <CandidateForm />
     </>
   )
 }

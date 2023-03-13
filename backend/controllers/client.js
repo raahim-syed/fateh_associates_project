@@ -7,7 +7,9 @@ module.exports = {
     //Get All Clients from DB
     const clients = await Client.find();
 
-    res.status(200).json({ data: clients });
+    if(!clients) throw new Error("No clients in database!")
+
+    res.status(200).json({msg: "All Clients!" , client: clients });
   }),
 
   // Get a single client from the database
@@ -15,8 +17,9 @@ module.exports = {
     //Getting Single Client
     const client = await Client.findById(req.params.id);
 
-    if (!client) res.status(404).json({ message: "Client not found" });
-    else res.status(200).json({ data: client });
+    if (!client) res.status(200).json({ message: "Client not found" });
+
+    res.status(200).json({ data: client });
   }),
 
   // Add a client to the database
@@ -29,13 +32,7 @@ module.exports = {
     }
 
     //Creating Client Object
-    const newClient = new Client({
-      name,
-      address,
-      email,
-      phoneNumber,
-      additionalEmails,
-    });
+    const newClient = new Client(req.body);
 
     //Saving to Database
     const client = await newClient.save();
@@ -53,7 +50,7 @@ module.exports = {
     );
 
     if (!client) res.status(404).json({ message: "Client not found" });
-    else res.status(200).json({ data: client });
+    else res.status(200).json({ msg: "Client Updated!" ,client: client });
   }),
 
   // Remove a client from the database

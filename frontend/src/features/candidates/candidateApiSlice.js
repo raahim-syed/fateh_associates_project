@@ -5,29 +5,29 @@ const candidateApiSlice = apiSlice.injectEndpoints({
     endpoints: builder => ({
             getCandidates: builder.query({
                 query: () => ({
-                    url: "/dashboard/candidates"
+                    url: "/dashboard/candidate"
                 }),
             addCandidate: builder.mutation({
                     query: (body) => ({
-                        url: "/dashboard/cadidates",
+                        url: "/dashboard/cadidate",
                         method: "POST",
                         body,
                     })
                 }),
             getSpecificCandidate: builder.query({
                     query: ({id}) => ({
-                        url: `/dashboard/info/${id}`,
+                        url: `/dashboard/candidate/info/${id}`,
                     })
                 }),
             deleteCandidate: builder.mutation({
                 query: ({id}) => ({
-                    url: `/dashboard/info/${id}`,
+                    url: `/dashboard/candidate/info/${id}`,
                     method: "DELETE"
                 })
             }),
             updateCandidate: builder.mutation({
                 query: ({id, data}) => ({
-                    url: `/dashboard/info`,
+                    url: `/dashboard/candidate/info`,
                     method: "PUT",
                     body: data
                 })
@@ -36,4 +36,10 @@ const candidateApiSlice = apiSlice.injectEndpoints({
     })
 })
 
-export default candidateApiSlice;
+export const { 
+    useGetCandidatesQuery, 
+    useAddCandidateMutation, 
+    useDeleteCandidateMutation, 
+    useUpdateCandidateMutation, 
+    useGetSpecificCandidateQuery 
+} = candidateApiSlice;

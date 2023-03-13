@@ -46,15 +46,19 @@ const LoginForm = () => {
       const userData = await login({email, password: pwd}).unwrap();
       console.log(userData)
 
-      //Dispatching data to store
-      dispatch(setCredentials({...userData, email}))
+      if(userData.stack) {
+        setErrMsg(userData.message)
+      }else{
+        //Dispatching data to store
+        dispatch(setCredentials({...userData, email}))
 
-      //Reseting local state (We don't want to store this as it can be seen by anyone)
-      setEmail("")
-      setPwd("")
+        //Reseting local state (We don't want to store this as it can be seen by anyone)
+        setEmail("")
+        setPwd("")
 
-      //Redirecting to dashboard
-      navigate("/dashboard")
+        //Redirecting to dashboard
+        navigate("/dashboard")
+      }
     }catch(error){
       console.log(error)
       errRef.current.focus();

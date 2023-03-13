@@ -12,6 +12,7 @@ const createSpecialitiesSlice = createSlice({
     initialState: state,
     reducers: {
         setSpecialities: (state, {type, payload}) => {
+            console.log("Payload: ", payload)
             state = {...payload};
         },
     }
@@ -21,5 +22,4 @@ export default createSpecialitiesSlice.reducer
 
 export const {setSpecialities} = createSpecialitiesSlice.actions;
 
-export const getSpecialities = (state) => state.specialities;
 

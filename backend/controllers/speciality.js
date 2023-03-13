@@ -6,43 +6,46 @@ module.exports = {
     return await Speciality.findOne({ name }) ? true : false;
   },
 
-  getSpecialities: asyncHandler(async (req, res) => {
-    const getSpecialities = await Speciality.find({});
-    if (getSpecialities.length === 0) {
-      res.status(200).json({
-        msg: "No specialities found in database",
-        specialities: getSpecialities,
+  allSpecialities: asyncHandler(async (req, res) => {
+    //All Specialities
+    const allSpecialities = await Speciality.find({});
+
+    //Checking for empty object return
+    if (!allSpecialities)  res.status(200).json({
+        msg: "No specialities found in database"
       });
-    } else {
-      res
-        .status(200)
-        .json({ msg: "Here are your results", specialities: getSpecialities });
-    }
+      
+    //Sending status
+    res.status(200).json({ msg: "Here are your results", specialities: allSpecialities });
   }),
 
+  //Adding Speciality to database
   addSpeciality: asyncHandler(async (req, res) => {
-    const { candidateName, name, description, payRate } = req.body;
+    const {name, description, payRate } = req.body;
+
+    console.log(req.body)
 
     //Validation
-    if (!candidateName || !name || !payRate) {
-      throw new Error("Please enter all fields");
-    }
+    if (!name || !payRate) throw new Error("Please enter all fields");
 
     //Check Existence
     const exists = await module.exports.checkExistence(name);
+
+    //Existence Check
     if (exists) {
       throw new Error("Speciality Already Exists");
     }
 
     //Creating object and Sending to DB
     const speciality = new Speciality({
-      candidateName,
       name,
       description,
-      payRate,
+      payRate
     });
 
+    //Saving to database
     const saved = await speciality.save();
+
     if (!saved) {
       throw new Error({ msg: "Problem Saving To Datebase", code: 500 });
     }
@@ -55,6 +58,9 @@ module.exports = {
 
   specificSpeciality: asyncHandler(async (req, res) => {
     const { id } = req.params;
+
+    if(!id) throw new Error("Please enter na ID to search")
+
     const speciality = await Speciality.findById(id);
 
     if (!speciality) {
@@ -67,41 +73,37 @@ module.exports = {
   updateSpeciality: asyncHandler(async (req, res) => {
     //Getting ID and Data from request object
     const { id } = req.params;
-    const { candidateName, name, description, payRate } = req.body;
+    const update = {...req.body};
 
-    //Form Validation
-    if (!candidateName || !name || !payRate) {
-      throw new Error("Please enter all fields");
-    }
+    //Validation
+    if(!id) throw new Error("Please enter an Id.")
 
     const updatedSpeciality = await Speciality.findByIdAndUpdate(
       id,
-      { candidateName, name, description, payRate },
-      { new: true }
+      update,
+      {new: true}
     );
 
     if (!updatedSpeciality) {
-      throw new Error("Speciality not found");
+      throw new Error("Could not find speciality to update");
     }
 
-    res
-      .status(200)
-      .json({ msg: "Speciality updated", speciality: updatedSpeciality });
+    res.status(200).json({ msg: "Speciality updated", speciality: updatedSpeciality });
   }),
 
   removeSpeciality: asyncHandler(async (req, res) => {
     const { id } = req.params;
-    if (!id) {
-      throw new Error("Please enter a speciality id to delete");
-    }
+
+    if (!id) throw new Error("Please enter a speciality id to delete");
 
     const deletedSpeciality = await Speciality.findByIdAndDelete(id);
+
     if (!deletedSpeciality) {
       throw new Error("Speciality not found");
     }
 
     res
       .status(200)
-      .json({ msg: "This speciality was deleted", speciality: deletedSpeciality });
+      .json({ msg: "Speciality Deleted Sucessfully!", speciality: deletedSpeciality });
   }),
 };

@@ -1,8 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const state = {
-    name: null,
-    email: null,
+    name: null
 }
 
 const candidateSlice = createSlice({
@@ -10,9 +9,7 @@ const candidateSlice = createSlice({
     initialState: state,
     reducers: {
         setCandidateData: (state, {type, payload}) => {
-            const { name, email }  = payload;
-            state.name = name;
-            state.email = email;
+            state.name = payload.name
         } 
     }
 })
@@ -22,4 +19,3 @@ export const { setCandidateData } = candidateSlice.actions;
 //Exporting The Reduce
 export default candidateSlice.reducer;
 
-export const getCandidateData = (state) => state.candidate;
