@@ -9,7 +9,7 @@ function Sidebar() {
         {/* <SidebarDropdown name="Candidate"/>   */}
         <NavLink to="candidates">Candidates</NavLink>
         <NavLink to="umbrella">Umbrella</NavLink>
-        <NavLink to="specialities">Speciality</NavLink>
+        <NavLink to="speciality">Speciality</NavLink>
         <NavLink to="client">Client</NavLink>
         <NavLink to="invoice">Invoice</NavLink>
     </aside>

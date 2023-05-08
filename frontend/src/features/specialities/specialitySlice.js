@@ -1,18 +1,20 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const state = {
-    id: null,
-    name: null,
-    chargeRate: null,
-    payRate: null,
-}
+    name: '',
+    description: '',
+    payRate: {
+      Day: 0,
+      Night: 0,
+      Sunday: 0,
+    }
+  };
 
 const createSpecialitiesSlice = createSlice({
-    name: "specialities",
+    name: "speciality",
     initialState: state,
     reducers: {
-        setSpecialities: (state, {type, payload}) => {
-            console.log("Payload: ", payload)
+        setSpeciality: (state, {type, payload}) => {
             state = {...payload};
         },
     }
@@ -20,6 +22,6 @@ const createSpecialitiesSlice = createSlice({
 
 export default createSpecialitiesSlice.reducer
 
-export const {setSpecialities} = createSpecialitiesSlice.actions;
+export const {setSpeciality} = createSpecialitiesSlice.actions;
 
 

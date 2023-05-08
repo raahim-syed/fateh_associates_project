@@ -1,36 +1,37 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux"
 import SpecialityForm from "../components/forms/SpecialityForm"
-import {  setSpecialities } from "../features/specialities/specialitySlice";
+import { setSpeciality } from "../features/specialities/specialitySlice";
 import { useGetSpecialitiesQuery } from "../features/specialities/spicialityApiSlice";
 
-const Speciality = () => {
-    //State
-    const allSpecialities = useSelector((state) => state.specialities)
+const Speciality = async () => {
+    //Getting Specialities from store
+    const allSpecialities = useSelector(state => state.speciality)
 
     //Dispatcher
     const dispatch = useDispatch();
 
-    //Query Hooks
+    //Getting data from databse
     const specialities = useGetSpecialitiesQuery();
 
+    const { isError } = specialities;
+
     console.log(specialities)
+
     useEffect(() => {
       updateStore();
     }, [])
 
-    //Functions
+    //Updating store with database data
     const updateStore = () => {
-      if(specialities.data.specialities){
-        dispatch(setSpecialities(specialities.data.specialities))
-      } else{
-        dispatch(setSpecialities({}))
+      if(!isError){
+       // dispatch(setSpeciality(speciality))
       }
     }
 
   return (
     <div>
-      <SpecialityForm />
+      {/* <SpecialityForm /> */}
     </div>
   )
 }

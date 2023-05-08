@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Form, Button, Container } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { setSpecialities } from '../../features/specialities/specialitySlice';
+import { setSpeciality } from '../../features/specialities/specialitySlice';
 import { useAddSpecialityMutation } from '../../features/specialities/spicialityApiSlice';
 
 const SpecialityForm = () => {
@@ -30,15 +30,15 @@ const SpecialityForm = () => {
     setSundayRate(0)
   }
 
-  //RTK Query Hooks
+  //Hook: used to add data to database
   const [addSpeciality, isLoading] = useAddSpecialityMutation();
 
+  //Form submit handling
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     //Sending Data To Server
     const speciality = await addSpeciality({
-      candidateName: "Someone",
       name,
       description,
       payRate: {
@@ -53,13 +53,13 @@ const SpecialityForm = () => {
       setErrMsg(speciality.message)
     }else{
       //Dispatching data to store
-      dispatch(setSpecialities({...speciality}))
+      dispatch(setSpeciality({...speciality}))
 
       //Reseting local state (We don't want to store this as it can be seen by anyone)
       resetInputState();
 
       //Redirecting to dashboard
-      navigate("/dashboard/specialities")
+     // navigate("/dashboard/specialities")
     }
   };
 

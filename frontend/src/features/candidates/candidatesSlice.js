@@ -1,8 +1,26 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const state = {
-    name: null
-}
+const state = 
+{
+    name: "",
+    dob: "",
+    NIN_Number: "",
+    currentAddress: "",
+    phoneNumber: "",
+    emailAddress: "",
+    candidateAccountFormLink: "",
+    umbrella: "",
+    consultant: "",
+    candidatePayRate: [
+        {
+        Day: "",
+        Night: "",
+        Sunday: ""
+        }
+    ],
+    specialty: [""]
+    }
+
 
 const candidateSlice = createSlice({
     name: "candidate",

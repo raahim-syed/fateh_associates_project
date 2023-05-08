@@ -33,13 +33,11 @@ const router = createBrowserRouter(
             <Route path="client" element={<Client/>} >
               <Route path="update" />
             </Route>
-            <Route path="specialities" element={<Speciality />} >
+            <Route path="speciality" element={<Speciality />} >
               <Route path="update" />
             </Route>
         </Route>        
       {/* </Route> */}
-
-
     </Route>
   )
 )

@@ -1,8 +1,17 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const state = {
-    name: null
-}
+const state = 
+    {
+        name: "",
+        contactName: "",
+        address: "",
+        email: "",
+        additionalEmailAddresses: [],
+        phoneNumber: "",
+        breakdownOfHours: "",
+        invoices: []
+    }
+
 
 const umbrellaSlice = createSlice({
     name: "umbrella",

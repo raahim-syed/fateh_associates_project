@@ -6,21 +6,25 @@ import { useGetCandidatesQuery } from "../features/candidates/candidateApiSlice"
 
 import { useDispatch, useSelector } from "react-redux"
 import { useEffect } from "react"
-import { getCandidateData, setCandidateData } from "../features/candidates/candidatesSlice"
+import { setCandidateData } from "../features/candidates/candidatesSlice"
 
 export default function Candidate() {
+
   //Getting State From Store
   const allCandidates = useSelector(state => state.candidate);
 
   //Dispacther
   const dispatch = useDispatch()
 
-  //Candidates
+  //Getting Candidates from Databse
   const candidates = useGetCandidatesQuery();
+
   console.log(candidates)
+
   useEffect(() => {
+    //Updating Store
     dispatch(setCandidateData({name: "raahim"}))
-    console.log(allCandidates)
+    
     // dispatch(setCandidateData(candidates.data.data))
   }, [])
 

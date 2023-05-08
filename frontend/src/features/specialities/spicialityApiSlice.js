@@ -3,29 +3,29 @@ import { apiSlice } from "../../app/api/api";
 const specialitiesApiSlice = apiSlice.injectEndpoints({
     endpoints: builder => ({
         getSpecialities: builder.query({
-            query: () => ({url: "/dashboard/specialities"})
+            query: () => ({url: "/dashboard/speciality"})
         }),
         addSpeciality: builder.mutation({
             query: (body) => ({
-                url: "dashboard/specialities",
+                url: "dashboard/speciality",
                 method: "POST",
                 body,
             })
         }),
         getSpecificSpeciality: builder.query({
             query: ({id}) => ({
-                url: `dashboard/specialities/info/${id}`,
+                url: `dashboard/speciality/info/${id}`,
             })
         }),
         deleteSpeciality: builder.mutation({
             query: ({id}) => ({
-                url: `dashboard/specialities/delete/${id}`,
+                url: `dashboard/speciality/delete/${id}`,
                 method: "DELETE",
             })
         }),
         updateSpeciality: builder.mutation({
             query: ({id, data}) => ({
-                url: `dashboard/specialities/update/${id}`,
+                url: `dashboard/speciality/update/${id}`,
                 method: "POST",
                 body: data
             })

@@ -18,9 +18,12 @@ const ClientProfileForm = () => {
   //   nameRef.foc
   // }, [])
 
-  //RTQ Query Hooks
+  //Hooks for adding client to database
   const [addClient, isLoading] = useAddClientMutation();
 
+  /* 
+    Handling State =================================
+  */
   const handleChange = (event) => {
     const { name, value } = event.target;
     setFormData((prevFormData) => ({
@@ -49,12 +52,28 @@ const ClientProfileForm = () => {
     }));
   };
 
+
+  //Submitting client to server
   const handleSubmit = async (event) => {
     event.preventDefault();
-    // Submitting to Server
-    const addedClient = await addClient(formData);
+    
+    try {
+        // Submitting to Server
+        const addedClient = await addClient(formData);
 
-    console.log(addedClient)
+        console.log(addedClient);
+
+        //Clearing form fields
+        setFormData(...formData, {
+          name: "",
+          address: "",
+          email: "",
+          phoneNumber: "",
+          additionalEmails: [],
+        })
+    } catch (error) {
+      
+    }
   };
 
   return (
